@@ -1,0 +1,11 @@
+coding_task:
+  description: >
+    Write python code to achieve this: {assignment}
+    Plan the approach, write clean and efficient code, and explain how it works.
+  expected_output: >
+    A text file that includes:
+    1. The approach and logic explanation
+    2. The complete Python code
+    3. Expected output or behavior
+  agent: coder
+  output_file: output/code_and_output.txt

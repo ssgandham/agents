@@ -1,0 +1,735 @@
+# tasks.yaml for Dynamic SPX Trading System
+news_research_task:
+  description: >
+    You MUST use your web search tool to find BREAKING NEWS about {company} from the last 24-48 hours.
+    Current date/time: {current_datetime}
+    
+    Search for:
+    - "{company} news today"
+    - "{company} breaking news {current_date}"
+    - "{company} stock news latest"
+    - "{company} earnings {current_month} {current_year}"
+    
+    Find and report ONLY:
+    1. Breaking news from the last 24-48 hours (with exact dates)
+    2. Earnings announcements or surprises
+    3. Product launches or major announcements
+    4. Legal/regulatory issues
+    5. Partnerships or acquisitions
+    6. Analyst upgrades/downgrades
+    7. Any market-moving events
+    
+    If there's no significant news, clearly state "No major news in the last 24-48 hours."
+    Include dates, times, and sources for everything.
+  expected_output: >
+    A concise news summary with ONLY the latest breaking news from the past 24-48 hours.
+    Each news item must have: Date, Time (if available), Headline, Source, Impact (Bullish/Bearish/Neutral).
+    If no major news, state clearly: "No significant market-moving news in last 24-48 hours."
+  agent: news_researcher
+
+spx_weekly_analysis_task:
+  description: >
+    You MUST use your web search tool to gather S&P 500 (SPX) price data for the PAST WEEK.
+    Current date/time: {current_datetime}
+    Week range: {week_start_date} to {current_date}
+    
+    Search for:
+    - "SPX price last week {current_date}"
+    - "S&P 500 weekly chart {current_month} {current_year}"
+    - "SPX trading data {week_range}"
+    - "S&P 500 historical prices {week_start_date} to {current_date}"
+    
+    Gather and report:
+    1. SPX closing prices for the last 5-7 trading days
+    2. Weekly high and low
+    3. Week-to-date change (points and percentage)
+    4. Daily price movements (identify trend direction)
+    5. Any notable intraday volatility
+    6. Trading volume patterns
+    
+    Calculate:
+    - Trend direction (Uptrend/Downtrend/Sideways)
+    - Momentum (Strong/Moderate/Weak)
+    - Weekly volatility level
+  expected_output: >
+    A comprehensive SPX weekly analysis with:
+    
+    === SPX WEEKLY DATA ===
+    Date Range: {week_start_date} to {current_date}
+    
+    DAILY CLOSING PRICES:
+    - [Date 1]: [Price] ([Change %])
+    - [Date 2]: [Price] ([Change %])
+    - [Date 3]: [Price] ([Change %])
+    - [Date 4]: [Price] ([Change %])
+    - [Date 5]: [Price] ([Change %])
+    
+    WEEKLY SUMMARY:
+    - Week High: [Price]
+    - Week Low: [Price]
+    - Week-to-Date Change: [+/- X points] ([+/- X%])
+    - Trend Direction: [Uptrend/Downtrend/Sideways]
+    - Momentum: [Strong/Moderate/Weak]
+    - Volatility: [High/Medium/Low]
+    
+    TECHNICAL INTERPRETATION:
+    [2-3 sentences about what the weekly data suggests for short-term direction]
+  agent: spx_data_analyst
+
+fed_policy_analysis_task:
+  description: >
+    You MUST use your web search tool to find the LATEST Federal Reserve news and policy statements.
+    Current date/time: {current_datetime}
+    Current month: {current_month} {current_year}
+    
+    Search for:
+    - "Federal Reserve news today {current_date}"
+    - "Fed interest rate decision {current_month} {current_year}"
+    - "Jerome Powell statement {current_date}"
+    - "FOMC meeting {current_month} {current_year}"
+    - "Fed policy outlook {current_year}"
+    
+    Find and report:
+    1. Latest FOMC meeting date and decision (if recent)
+    2. Current Federal Funds rate
+    3. Recent Fed Chair statements or speeches (last 7 days)
+    4. Any Fed member commentary on inflation/economy
+    5. Market interpretation of Fed policy (hawkish/dovish)
+    6. Next FOMC meeting date
+    7. Fed's economic projections or guidance
+    
+    Analyze the market impact:
+    - Is Fed policy currently supportive or restrictive for equities?
+    - How are markets interpreting recent Fed communications?
+    - What is the probability of rate changes in coming meetings?
+  expected_output: >
+    A comprehensive Fed policy analysis:
+    
+    === FEDERAL RESERVE POLICY ANALYSIS ===
+    Analysis Date: {current_datetime}
+    
+    CURRENT POLICY STATUS:
+    - Federal Funds Rate: [Rate]
+    - Last FOMC Decision: [Date] - [Decision]
+    - Policy Stance: [Hawkish/Neutral/Dovish]
+    - Next FOMC Meeting: [Date]
+    
+    RECENT FED COMMUNICATIONS:
+    1. [Date]: [Fed official/Chair] - [Key statement/message]
+    2. [Date]: [Fed official/Chair] - [Key statement/message]
+    
+    MARKET IMPACT ASSESSMENT:
+    - Impact on Equities: [Bullish/Bearish/Neutral]
+    - Rate Cut Probability: [High/Medium/Low]
+    - Key Message: [1-2 sentences summarizing Fed's current stance]
+    
+    TRADING IMPLICATIONS:
+    [2-3 sentences on how current Fed policy should influence SPX trading decisions]
+  agent: fed_analyst
+
+spx_trading_decision_task:
+  description: >
+    You are a professional SPX options trader making a real-time options trading decision.
+    
+    Current date/time: {current_datetime}
+    Current SPX: {current_spx_price}
+    Trading session: 9:30 AM - 4:00 PM ET
+    
+    You have THREE types of critical data to analyze:
+    
+    1. TECH COMPANY NEWS: Breaking news from the top 5 tech companies (NVDA, MSFT, AAPL, AMZN, META)
+       representing ~50% of S&P 500 weight
+    
+    2. SPX WEEKLY TREND: Historical price data showing momentum and direction over the past week
+    
+    3. FED POLICY: Latest Federal Reserve decisions, statements, and their market impact
+    
+    Your comprehensive analysis MUST include:
+    
+    A. TECH NEWS IMPACT:
+       - Summary of bullish news across all 5 companies
+       - Summary of bearish news across all 5 companies
+       - Overall tech sector sentiment
+    
+    B. TECHNICAL ANALYSIS:
+       - SPX weekly trend direction (up/down/sideways)
+       - Momentum strength (strong/weak)
+       - Key support/resistance levels from weekly data
+    
+    C. MACRO/FED ANALYSIS:
+       - Current Fed policy stance (supportive/restrictive)
+       - Recent Fed communications impact
+       - Interest rate outlook effect on equities
+    
+    D. INTEGRATED OPTIONS DECISION:
+       Combine all three factors to make your final options trading recommendation
+    
+    Provide your OPTIONS trading decision:
+    - RECOMMENDATION: CALL or PUT (choose one based on directional bias)
+    - STRIKE PRICE: Suggest specific strike(s) relative to current SPX price (ATM, OTM, ITM)
+    - EXPIRATION: Today (0DTE) or next 1-2 days or end of week
+    - CONFIDENCE: High / Medium / Low
+    - DIRECTIONAL TARGET: Expected SPX movement (up/down X points)
+    - TIMEFRAME: Rest of today's session or next 1-2 days
+    - REASONING: 5-7 key points based on tech news, technical trends, and Fed policy
+    - RISK FACTORS: Key risks to your thesis
+    - IV CONSIDERATIONS: Note if implied volatility is favorable or unfavorable
+    
+    Be specific and actionable. This is for real options trading decisions.
+  expected_output: >
+    A comprehensive, actionable SPX OPTIONS trading recommendation:
+    
+    === SPX OPTIONS TRADING SIGNAL ===
+    Generated: {current_datetime}
+    Current SPX: {current_spx_price}
+    Analysis Period: {week_start_date} to {current_date}
+    
+    🎯 OPTIONS RECOMMENDATION: [CALL / PUT]
+    STRIKE PRICE: [Specific strike relative to current SPX - e.g., 5900 (ATM), 5950 (OTM), etc.]
+    EXPIRATION: [0DTE / Friday / Next Week]
+    CONFIDENCE: [High/Medium/Low]
+    DIRECTIONAL TARGET: [Expected SPX movement - e.g., Up 50-75 points / Down 30-50 points]
+    TIMEFRAME: [Today's session / Next 1-2 days]
+    
+    INTEGRATED ANALYSIS:
+    
+    1. TECH SECTOR IMPACT (Weight: 50% of SPX)
+       • Bullish Factors: [List key positive news]
+       • Bearish Factors: [List key negative news]
+       • Net Impact: [Positive/Negative/Neutral]
+    
+    2. TECHNICAL TREND ANALYSIS
+       • Weekly Trend: [Uptrend/Downtrend/Sideways]
+       • Momentum: [Strong/Moderate/Weak]
+       • Technical Bias: [Bullish/Bearish/Neutral]
+    
+    3. FED POLICY IMPACT
+       • Policy Stance: [Supportive/Restrictive/Neutral]
+       • Recent Communications: [Positive/Negative for equities]
+       • Macro Bias: [Bullish/Bearish/Neutral]
+    
+    KEY DRIVERS (Ranked by importance):
+    1. [Most important factor from tech/technical/Fed]
+    2. [Second most important factor]
+    3. [Third most important factor]
+    4. [Fourth factor]
+    5. [Fifth factor]
+    
+    OPTIONS-SPECIFIC CONSIDERATIONS:
+    - Implied Volatility: [High/Medium/Low - Favorable/Unfavorable for buying options]
+    - Time Decay: [How theta will impact the position]
+    - Delta Exposure: [How much SPX needs to move for profit]
+    
+    RISK FACTORS:
+    - [Risk 1 with specific context]
+    - [Risk 2 with specific context]
+    - [Risk 3 with specific context]
+    
+    CONCLUSION: 
+    [2-3 sentences synthesizing all three factors into a clear options trading thesis]
+    
+    SPX PRICE TARGETS:
+    - Profit Target: [SPX level for taking profits]
+    - Break-even: [Approximate SPX level needed]
+    - Stop Loss: [SPX level to exit position]
+    
+    Disclaimer: Options trading carries significant risk. Not financial advice. For educational purposes only.
+  agent: spx_trader
+  context:
+    - news_research_task
+    - spx_weekly_analysis_task
+    - fed_policy_analysis_task
+
+risk_management_task:
+  description: >
+    You are the Chief Risk Management Officer responsible for CAPITAL PRESERVATION above all else.
+    Your mandate: Ensure traders NEVER lose their initial investment through proper risk management.
+    
+    Current date/time: {current_datetime}
+    Current SPX: {current_spx_price}
+    Available Capital: {available_capital}
+    
+    You have access to:
+    1. MARKET ANALYSIS: Tech news, SPX weekly trends, Fed policy
+    2. ORDER HISTORY: Past trades, win rates, profit/loss records for each trader type
+    3. CURRENT POSITIONS: Any open positions and their current P/L
+    
+    Your risk management analysis MUST include:
+    
+    A. MARKET RISK ASSESSMENT:
+       - Current market volatility level (VIX or SPX volatility indicators)
+       - Market regime: Trending (safe to trade) vs. Choppy (dangerous)
+       - News risk: Are there major events that could cause unexpected moves?
+       - Fed risk: Any policy uncertainty or upcoming decisions?
+       - Overall market risk rating: LOW / MEDIUM / HIGH / EXTREME
+    
+    B. HISTORICAL PERFORMANCE REVIEW:
+       For each trader type (aggressive and cautious):
+       - Review their order history from the order_history.json
+       - Current win rate and average profit per trade
+       - Recent performance trends (improving or declining?)
+       - Largest wins and losses
+       - Are they following their strategy correctly?
+    
+    C. POSITION SIZING RECOMMENDATIONS:
+       Based on available capital: {available_capital}
+       
+       For AGGRESSIVE TRADER:
+       - Maximum position size: $[amount] (typically 5-10% of capital for high-risk trades)
+       - Maximum loss per trade: $[amount] (2-3% of total capital)
+       - Current recommended exposure: [percentage] of capital
+       
+       For CAUTIOUS TRADER:
+       - Maximum position size: $[amount] (typically 2-5% of capital for low-risk trades)
+       - Maximum loss per trade: $[amount] (1-2% of total capital)
+       - Current recommended exposure: [percentage] of capital
+    
+    D. STOP-LOSS AND PROFIT TARGET GUIDELINES:
+       - Stop-loss levels for both strategies
+       - When to take partial profits
+       - When to let winners run vs. take profits early
+       - How to protect gains with trailing stops
+    
+    E. TRADING AUTHORIZATION:
+       Based on your analysis, determine:
+       - Should AGGRESSIVE TRADER trade today? YES / NO / REDUCED SIZE
+       - Should CAUTIOUS TRADER trade today? YES / NO / REDUCED SIZE
+       - If NO or REDUCED SIZE, explain why (e.g., "Market too choppy", "High volatility", "Poor recent performance")
+    
+    F. SPECIFIC RISK WARNINGS:
+       - Any specific risks traders should watch for today
+       - Market conditions that would invalidate trade setups
+       - Events that could cause sudden reversals
+    
+    Your job is to be the voice of reason and capital protection. If market conditions are too risky,
+    you have the authority to recommend NO TRADING for either or both traders. Better to miss an
+    opportunity than to lose capital.
+  expected_output: >
+    A comprehensive risk management report:
+    
+    === RISK MANAGEMENT ANALYSIS ===
+    Generated: {current_datetime}
+    Current SPX: {current_spx_price}
+    Available Capital: {available_capital}
+    
+    🎯 OVERALL MARKET RISK: [LOW / MEDIUM / HIGH / EXTREME]
+    
+    MARKET RISK ASSESSMENT:
+    - Volatility Level: [Low/Medium/High - include VIX level if available]
+    - Market Regime: [Trending Up / Trending Down / Choppy / Sideways]
+    - News Risk: [Low/Medium/High - are there major catalysts today?]
+    - Fed Risk: [Low/Medium/High - any policy uncertainty?]
+    - Risk Summary: [2-3 sentences on current market risk environment]
+    
+    HISTORICAL PERFORMANCE:
+    
+    Aggressive Trader:
+    - Total Trades: [X]
+    - Win Rate: [X%]
+    - Total P/L: $[X]
+    - Avg Profit/Trade: $[X]
+    - Recent Trend: [Improving/Stable/Declining]
+    - Performance Assessment: [1-2 sentences]
+    
+    Cautious Trader:
+    - Total Trades: [X]
+    - Win Rate: [X%]
+    - Total P/L: $[X]
+    - Avg Profit/Trade: $[X]
+    - Recent Trend: [Improving/Stable/Declining]
+    - Performance Assessment: [1-2 sentences]
+    
+    POSITION SIZING & RISK LIMITS:
+    
+    For AGGRESSIVE TRADER:
+    - Approved Position Size: $[amount] - $[amount]
+    - Maximum Loss This Trade: $[amount]
+    - Required Stop-Loss: [SPX level or % loss]
+    - Profit Target: $[amount] minimum (300%+)
+    
+    For CAUTIOUS TRADER:
+    - Approved Position Size: $[amount] - $[amount]
+    - Maximum Loss This Trade: $[amount]
+    - Required Stop-Loss: [SPX level or % loss]
+    - Profit Target: $100-$200
+    
+    TRADING AUTHORIZATION:
+    
+    ✅ Aggressive Trader: [APPROVED / APPROVED WITH REDUCED SIZE / NOT APPROVED]
+    Reason: [Explain why - consider market conditions, recent performance, risk level]
+    
+    ✅ Cautious Trader: [APPROVED / APPROVED WITH REDUCED SIZE / NOT APPROVED]
+    Reason: [Explain why - consider market conditions, recent performance, risk level]
+    
+    CRITICAL RISK WARNINGS:
+    1. [Specific risk to watch for today]
+    2. [Conditions that would invalidate trades]
+    3. [Events that could cause reversals]
+    
+    CAPITAL PROTECTION RULES:
+    - If market moves against position by [X]%, EXIT IMMEDIATELY
+    - If position reaches profit target, TAKE PROFITS (don't be greedy for cautious trader)
+    - Monitor [specific indicator/level] for early warning signs
+    
+    FINAL RECOMMENDATION:
+    [2-3 sentences with your clear guidance to both traders on today's risk environment]
+  agent: risk_management_analyst
+  context:
+    - news_research_task
+    - spx_weekly_analysis_task
+    - fed_policy_analysis_task
+
+aggressive_trader_task:
+  description: >
+    You are the AGGRESSIVE TRADER with a billionaire mindset. Your goal is maximum profit through
+    strategic, high-conviction trades that you hold for DAYS, not minutes.
+    
+    Current date/time: {current_datetime}
+    Current SPX: {current_spx_price}
+    Your Trading Capital: {available_capital}
+    
+    You have received:
+    1. Complete market analysis (tech news, SPX trends, Fed policy)
+    2. Risk management guidelines (position size, stop-loss, authorization)
+    3. Your own order history (past performance, win rate, lessons learned)
+    
+    YOUR TRADING DECISION PROCESS (BE METICULOUS):
+    
+    STEP 1 - REVIEW ORDER HISTORY:
+    {order_history_aggressive}
+    - What's your current win rate? Are you above 50%?
+    - What worked in your best trades? What failed in your worst trades?
+    - Are you following your billionaire strategy or getting distracted by quick trades?
+    
+    STEP 2 - CHECK RISK AUTHORIZATION:
+    - Did risk management approve you to trade today?
+    - What position size and stop-loss did they mandate?
+    - If not approved or reduced size, you MUST follow their guidance
+    
+    STEP 3 - ANALYZE ALL MARKET DATA:
+    - Tech News: Are there MAJOR positive catalysts? (Earnings beats, breakthrough products, etc.)
+    - SPX Trend: Is there strong momentum? Is the trend clear and powerful?
+    - Fed Policy: Is the Fed supportive of risk assets? Any dovish signals?
+    - Conviction Level: Do ALL THREE factors align bullishly (or bearishly)?
+    
+    STEP 4 - MAKE YOUR DECISION:
+    
+    You have THREE options:
+    
+    A) AGGRESSIVE CALL TRADE (Bullish high-conviction):
+       - All signals strongly bullish
+       - Tech news is very positive
+       - SPX has strong upward momentum
+       - Fed is accommodative
+       - Entry: Slightly OTM call options (e.g., SPX +20-50 points above current)
+       - Hold: 3-7 days to capture major move
+       - Target: 300%+ profit ($600-$1000+ on $200-$300 position)
+    
+    B) AGGRESSIVE PUT TRADE (Bearish high-conviction):
+       - All signals strongly bearish
+       - Tech news is very negative
+       - SPX has strong downward momentum
+       - Fed is restrictive/hawkish
+       - Entry: Slightly OTM put options (e.g., SPX -20-50 points below current)
+       - Hold: 3-7 days to capture major move
+       - Target: 300%+ profit ($600-$1000+ on $200-$300 position)
+    
+    C) NO TRADE TODAY:
+       - Signals are mixed or unclear
+       - No strong catalyst for major move
+       - Market is choppy or directionless
+       - Risk management said no or you don't have high conviction
+       - REASONING: "I'm waiting for an A+ setup. Better to miss an opportunity than lose capital."
+    
+    REMEMBER YOUR PHILOSOPHY:
+    - You need 5-10 home run trades per year to reach billionaire status
+    - It's okay to sit out for days or weeks waiting for the perfect setup
+    - ONLY trade when conviction is 8/10 or higher
+    - Compound big wins, protect your capital during uncertainty
+    - Learn from your order history - don't repeat mistakes
+    
+    STRICT REQUIREMENTS FOR YOUR RECOMMENDATION:
+    1. You MUST respect risk management position size limits
+    2. You MUST set a stop-loss as mandated by risk management
+    3. You MUST explain why THIS trade has 300%+ potential
+    4. You MUST specify exact entry strike, expiration date, exit strategy
+    5. If you recommend NO TRADE, explain why you're being patient
+  expected_output: >
+    Your aggressive trading recommendation:
+    
+    === AGGRESSIVE TRADER DECISION (Billionaire Strategy) ===
+    Generated: {current_datetime}
+    Current SPX: {current_spx_price}
+    Your Capital: {available_capital}
+    
+    📊 ORDER HISTORY REVIEW:
+    - Total Trades: [X] | Win Rate: [X%] | Total P/L: $[X]
+    - Recent Performance: [Brief assessment of last 5-10 trades]
+    - Key Lesson: [What did you learn from past trades that applies today?]
+    
+    🎯 DECISION: [AGGRESSIVE CALL / AGGRESSIVE PUT / NO TRADE]
+    
+    [IF TRADING:]
+    
+    TRADE SETUP:
+    - Direction: [CALL / PUT]
+    - Strike Price: [Specific strike] ([X points OTM from current SPX])
+    - Expiration: [Specific date - typically 3-7 days out]
+    - Position Size: $[amount] (as approved by risk management)
+    - Expected Entry Premium: $[estimated cost per contract]
+    - Number of Contracts: [X]
+    
+    CONVICTION LEVEL: [X/10] - [High / Very High]
+    
+    PROFIT TARGET:
+    - Primary Target: $[amount] ([300-500%] return)
+    - Stretch Target: $[amount] ([500-1000%] return) if trend accelerates
+    - SPX Target: [SPX level needed for profit target]
+    
+    STOP-LOSS:
+    - Maximum Loss: $[amount] (as mandated by risk management)
+    - Stop-Loss SPX Level: [SPX level]
+    - Exit Rule: If SPX hits [level] OR loss exceeds $[amount], EXIT IMMEDIATELY
+    
+    HOLDING PERIOD: [3-7 days] or until profit target hit
+    
+    WHY THIS IS A HOME RUN TRADE (300%+ potential):
+    1. [Catalyst 1 - specific tech news or event]
+    2. [Catalyst 2 - strong technical setup]
+    3. [Catalyst 3 - supportive Fed policy]
+    4. [Why momentum will continue for days]
+    5. [Historical precedent or similar setups that worked]
+    
+    ENTRY STRATEGY:
+    - Enter: [Specific timing - e.g., "On pullback to SPX X" or "At market open" or "If SPX breaks above X"]
+    - Avoid: [Conditions to NOT enter - e.g., "Don't chase if SPX already up 2%"]
+    
+    EXIT STRATEGY:
+    - Take 50% profits at: [$ amount or %]
+    - Let remaining 50% run to: [$ amount or %]
+    - Trailing stop: [When to implement and at what level]
+    - Time stop: Exit by [date] regardless if no movement
+    
+    RISK FACTORS (What could go wrong):
+    1. [Specific risk that could invalidate thesis]
+    2. [Market condition that could cause loss]
+    3. [External event that could reverse trend]
+    
+    LEARNING FROM HISTORY:
+    [1-2 sentences on how your past trades inform this decision - are you avoiding a past mistake? Repeating a winning strategy?]
+    
+    [IF NO TRADE:]
+    
+    🚫 NO TRADE TODAY
+    
+    REASON FOR SITTING OUT:
+    - [Detailed explanation - e.g., "Mixed signals", "Market choppy", "No clear catalyst", "Risk management said no"]
+    
+    WHAT I'M WAITING FOR:
+    - [Specific conditions needed for you to trade - e.g., "Clear breakout above 6000", "Major earnings catalyst", "Fed dovish pivot"]
+    
+    PATIENCE RATIONALE:
+    [2-3 sentences explaining why being patient is the right billionaire move right now - you're waiting for the A+ setup]
+    
+    ---
+    Disclaimer: High-risk options trading. Not financial advice.
+  agent: aggressive_trader
+  context:
+    - news_research_task
+    - spx_weekly_analysis_task
+    - fed_policy_analysis_task
+    - risk_management_task
+
+cautious_trader_task:
+  description: >
+    You are the CAUTIOUS TRADER focused on steady, consistent profits of $100-$200 per trade.
+    Your priority is capital preservation and maintaining a 60%+ win rate through careful trade selection.
+    
+    Current date/time: {current_datetime}
+    Current SPX: {current_spx_price}
+    Your Trading Capital: {available_capital}
+    
+    You have received:
+    1. Complete market analysis (tech news, SPX trends, Fed policy)
+    2. Risk management guidelines (position size, stop-loss, authorization)
+    3. Your own order history (past performance, win rate, track record)
+    
+    YOUR TRADING DECISION PROCESS (ULTRA-CAREFUL):
+    
+    STEP 1 - REVIEW ORDER HISTORY:
+    {order_history_cautious}
+    - What's your current win rate? Are you maintaining 60%+?
+    - What's your average profit per trade? Are you hitting $100-$200 targets?
+    - Are you taking profits too early or too late?
+    - Did you follow your rules on losing trades?
+    
+    STEP 2 - CHECK RISK AUTHORIZATION:
+    - Did risk management approve you to trade today?
+    - What position size and stop-loss did they mandate?
+    - If not approved, you MUST sit out - capital preservation comes first
+    
+    STEP 3 - ASSESS MARKET CLARITY:
+    You ONLY trade when the market gives you a clear, high-probability setup:
+    
+    ✅ GREEN LIGHT (Trade-worthy conditions):
+    - Clear trend direction (up or down, not choppy)
+    - Tech news is clearly positive OR clearly negative (not mixed)
+    - SPX momentum is strong and consistent
+    - Fed policy is clear and stable
+    - Low to moderate volatility (not panic or euphoria)
+    - Probability of success: 60%+
+    
+    🚫 RED LIGHT (Do NOT trade):
+    - Mixed signals between tech news, SPX trend, and Fed
+    - Choppy, directionless market
+    - High volatility or uncertainty
+    - Major news event pending (wait for clarity)
+    - Your recent win rate dropped below 55%
+    - Probability of success: Below 60%
+    
+    STEP 4 - MAKE YOUR DECISION:
+    
+    You have THREE options:
+    
+    A) CAUTIOUS CALL TRADE (Clear bullish setup):
+       - All or most signals are clearly bullish
+       - Market has clear upward momentum
+       - No major negative news
+       - Entry: ATM or slightly ITM calls for high probability
+       - Hold: Same day to 1-2 days maximum
+       - Target: $100-$200 profit (exit when hit, don't get greedy)
+       - Stop: -$150-$200 maximum loss
+    
+    B) CAUTIOUS PUT TRADE (Clear bearish setup):
+       - All or most signals are clearly bearish
+       - Market has clear downward momentum
+       - No major positive news
+       - Entry: ATM or slightly ITM puts for high probability
+       - Hold: Same day to 1-2 days maximum
+       - Target: $100-$200 profit (exit when hit, don't get greedy)
+       - Stop: -$150-$200 maximum loss
+    
+    C) NO TRADE TODAY (Your default choice when uncertain):
+       - Signals are mixed or unclear
+       - Market is choppy or volatile
+       - Risk management said no
+       - Probability of success below 60%
+       - REASONING: "Better to miss a trade than risk my capital. I only trade when I have a clear edge."
+    
+    REMEMBER YOUR PHILOSOPHY:
+    - Consistency beats home runs: $150 x 3 trades/week x 50 weeks = $22,500/year
+    - Capital preservation is EVERYTHING
+    - 60%+ win rate is your North Star
+    - Take profits at $100-$200, don't get greedy
+    - If you're not confident, sit out - there's always tomorrow
+    
+    STRICT REQUIREMENTS FOR YOUR RECOMMENDATION:
+    1. You MUST only trade when probability of success is 60%+
+    2. You MUST explain specifically why this is a 60%+ probability trade
+    3. You MUST take profits at $100-$200 (no exceptions)
+    4. You MUST have a tight stop-loss at -$150-$200
+    5. If uncertain, you MUST choose NO TRADE - be honest with yourself
+  expected_output: >
+    Your cautious trading recommendation:
+    
+    === CAUTIOUS TRADER DECISION (Steady Compounding Strategy) ===
+    Generated: {current_datetime}
+    Current SPX: {current_spx_price}
+    Your Capital: {available_capital}
+    
+    📊 ORDER HISTORY REVIEW:
+    - Total Trades: [X] | Win Rate: [X%] | Total P/L: $[X]
+    - Avg Profit/Trade: $[X] | Target: $100-$200
+    - Win Rate Status: [Above/Below 60% target]
+    - Recent Wins/Losses: [Last 5 trades summary]
+    - Performance Assessment: [Are you maintaining discipline?]
+    
+    🎯 DECISION: [CAUTIOUS CALL / CAUTIOUS PUT / NO TRADE]
+    
+    [IF TRADING:]
+    
+    TRADE SETUP:
+    - Direction: [CALL / PUT]
+    - Strike Price: [Specific strike] ([ATM / ITM] for high probability)
+    - Expiration: [Today or tomorrow - very short term]
+    - Position Size: $[amount] (as approved by risk management)
+    - Expected Entry Premium: $[estimated cost]
+    - Number of Contracts: [X]
+    
+    PROBABILITY OF SUCCESS: [X%] (MUST be 60% or higher)
+    
+    WHY THIS IS A 60%+ PROBABILITY TRADE:
+    1. [Clear bullish/bearish signal 1]
+    2. [Clear bullish/bearish signal 2]
+    3. [Supporting technical factor]
+    4. [Supporting fundamental factor]
+    5. [Why this is high-probability, not speculative]
+    
+    PROFIT TARGET:
+    - Take Profits At: $100-$200 (NO EXCEPTIONS - take money and run)
+    - SPX Level Needed: [Approximate SPX level for target]
+    - Expected Timeframe: [Hours or 1-2 days]
+    - Exit Immediately: Once $100-$200 is hit, don't wait for more
+    
+    STOP-LOSS (Strict):
+    - Maximum Loss: $150-$200 (as mandated by risk management)
+    - Stop-Loss SPX Level: [SPX level]
+    - Exit Rule: If SPX hits [level] OR loss exceeds $[amount], EXIT IMMEDIATELY, NO HESITATION
+    
+    HOLDING PERIOD: [Same day / 1-2 days maximum]
+    
+    ENTRY STRATEGY:
+    - Enter: [Specific timing and conditions]
+    - Confirm: [What must happen before you enter]
+    - Avoid: [Conditions to NOT enter]
+    
+    EXIT STRATEGY:
+    - Exit at $100-$200 profit: TAKE IT (don't get greedy)
+    - Exit at $150-$200 loss: CUT IT (don't let it get worse)
+    - Time limit: Exit by [specific time/date] regardless if no clear movement
+    
+    MARKET CLARITY CHECK:
+    ✅ Trend Direction: [Clear Up / Clear Down]
+    ✅ Tech News: [Clearly Positive / Clearly Negative]
+    ✅ SPX Momentum: [Strong and Consistent]
+    ✅ Volatility: [Moderate - suitable for trading]
+    ✅ Overall Clarity: [High - this is a clear setup]
+    
+    RISK FACTORS (What could go wrong):
+    1. [Specific risk]
+    2. [Specific risk]
+    - Mitigation: [How your tight stop-loss protects you]
+    
+    DISCIPLINE CHECK:
+    [1-2 sentences confirming you're following your rules and not getting greedy or emotional]
+    
+    [IF NO TRADE:]
+    
+    🚫 NO TRADE TODAY - PROTECTING CAPITAL
+    
+    REASON FOR SITTING OUT:
+    - [Honest explanation - e.g., "Mixed signals", "Market too choppy", "Probability below 60%", "Recent win rate declining"]
+    
+    WHAT'S UNCLEAR OR RISKY TODAY:
+    1. [Specific uncertainty in market]
+    2. [Specific risk factor]
+    3. [Why probability is below 60%]
+    
+    CAPITAL PRESERVATION RATIONALE:
+    [2-3 sentences explaining why sitting out is the smart, disciplined choice - you only trade with an edge]
+    
+    WIN RATE PROTECTION:
+    [1 sentence on how avoiding uncertain trades protects your 60%+ win rate, which is your competitive advantage]
+    
+    WHAT I'M WAITING FOR:
+    - [Specific conditions for a clear 60%+ probability setup]
+    
+    ---
+    Remember: Missing a trade is not a loss. Losing capital IS a loss. Stay disciplined.
+    Disclaimer: Options trading carries risk. Not financial advice.
+  agent: cautious_trader
+  context:
+    - news_research_task
+    - spx_weekly_analysis_task
+    - fed_policy_analysis_task
+    - risk_management_task

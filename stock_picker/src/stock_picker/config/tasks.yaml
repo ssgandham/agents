@@ -1,0 +1,83 @@
+find_trending_companies:
+  description: >
+    You MUST use your web search tool to find trending companies in {sector} as of TODAY ({current_date}).
+    
+    Search Google for the following queries:
+    1. "trending {sector} companies {current_date}"
+    2. "best {sector} stocks to buy {current_date}"
+    3. "fastest growing {sector} companies {current_date}"
+    4. "{sector} companies with AI investments {current_date}"
+    5. "hot {sector} stocks Robinhood tradeable today"
+    
+    Find 10 companies that are trending in TODAY'S news. Look for:
+    - Recent earnings announcements (last 30 days)
+    - Breaking news and major announcements
+    - Analyst upgrades or new coverage
+    - Product launches or partnerships
+    - Companies making headlines THIS WEEK
+    
+    CRITICAL: Use your web search tool for EACH query. Verify news is CURRENT as of {current_date}.
+    Find NEW companies you haven't recommended before.
+  expected_output: >
+    A list of 10 trending {sector} companies with ticker symbols, company names, and reason they're trending
+    based on CURRENT news from {current_date}. Each company must have recent news supporting why
+    they're trending NOW.
+  agent: trending_company_finder
+  output_file: output/trending_companies.json
+
+research_trending_companies:
+  description: >
+    You have a list of trending companies. You MUST use your web search tool to research EACH company
+    with the LATEST data as of {current_date}.
+    
+    For EACH company in the list:
+    
+    1. Search: "[Company name] latest earnings {current_date}" 
+       - Find most recent quarterly results
+       - Revenue, profit, growth rates
+    
+    2. Search: "[Company name] news {current_date}"
+       - Recent announcements, partnerships, products
+       - Any breaking news from last 30 days
+    
+    3. Search: "[Company name] stock analysis {current_date}"
+       - Current analyst ratings and price targets
+       - Institutional ownership changes
+    
+    4. Search: "[Company name] AI strategy {current_date}"
+       - AI investments and initiatives
+       - How they're using AI to grow
+    
+    5. Search: "[Company name] competition market position {current_date}"
+       - Competitive landscape
+       - Market share and positioning
+    
+    For EACH company, compile:
+    - Market Position: Based on current data as of {current_date}
+    - Future Outlook: Based on recent analyst reports and company guidance
+    - Investment Potential: Based on current valuation and growth prospects
+    
+    CRITICAL: You MUST search the web for EACH company. Include publication dates in your research
+    to prove information is current. Reject any data older than 6 months unless historical context.
+  expected_output: >
+    A comprehensive research report with detailed analysis of EACH company including:
+    - Market position (with current data and sources as of {current_date})
+    - Future outlook (with recent analyst opinions from {current_date} timeframe)
+    - Investment potential (with current valuation as of {current_date})
+    - All information must cite recent sources with dates to verify it's from {current_date} timeframe
+  agent: financial_researcher
+  context:
+    - find_trending_companies
+  output_file: output/research_report.json
+
+pick_best_company:
+  description: >
+    Analyze the research findings and pick the best company for investment.
+    Send a push notification to the user with the decision and 1 sentence rationale.
+    Then respond with a detailed report on why you chose this company, and which companies were not selected.
+  expected_output: >
+    The chosen company and why it was chosen; the companies that were not selected and why they were not selected.
+  agent: stock_picker
+  context:
+    - research_trending_companies
+  output_file: output/decision.md
